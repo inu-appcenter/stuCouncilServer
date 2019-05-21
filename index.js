@@ -1,9 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const mongoose = require('mongoose')
+const config = require('./routes/config/config')
 
 const app = express()
 const port = 7003
+const db = mongoose.connection
+db.on('error',console.error)
+db.once('open',function() {
+    console.log("db connect")
+})
+
+mongoose.connect(config.mongoPath)
 
 const board = require('./routes/board')
 const login = require('./routes/login')
