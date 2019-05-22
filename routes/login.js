@@ -6,7 +6,7 @@ const authMiddleWare = require('./function/auth')
 let returnJson = {}
 let returnStatus
 
-router.use('/',authMiddleWare)
+router.use('/myPage',authMiddleWare)
 
 router.post('/signUp',(req,res)=>{
     const signUpOptions = {
