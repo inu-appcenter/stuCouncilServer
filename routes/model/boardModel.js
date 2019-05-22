@@ -13,7 +13,8 @@ let boardSchema = new Schema({
     },
     viewTime : Number,
     file : [],
-    content : String
+    content : String,
+    notice : Boolean
 })
 
 module.exports = mongoose.model('boardSchema',boardSchema)

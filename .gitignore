@@ -57,6 +57,9 @@ jspm_packages/
 # secret Config file
 config/
 
+# file directories
+file/
+
 # TypeScript v1 declaration files
 typings/
 

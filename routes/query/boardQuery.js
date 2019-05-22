@@ -1,4 +1,4 @@
-const board = require('../model/board')
+const board = require('../model/boardModel')
 
 module.exports = async (query,kind) => {
     const nowDate = new Date()
@@ -9,6 +9,7 @@ module.exports = async (query,kind) => {
             newBoard.title = query.title
             newBoard.date = nowDate
             newBoard.viewTime = 0
+            newBoard.notice = query.notice
             newBoard.content = query.content
             await query.file.map(Data => 
                 newBoard.file.push(Data)
