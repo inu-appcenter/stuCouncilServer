@@ -16,6 +16,7 @@ mongoose.connect(config.mongoPath)
 
 const board = require('./routes/board')
 const login = require('./routes/login')
+const account = require('./routes/account')
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
@@ -23,6 +24,7 @@ app.use(cors())
 
 app.use('/board',board)
 app.use('/login',login)
+app.use('/account',account)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

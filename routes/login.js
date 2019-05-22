@@ -89,14 +89,8 @@ router.post('/signUp',(req,res)=>{
 
 })
 
-router.post('/myPage',async (req,res) => {
-    let decodedQuery = {
-        id : req.decoded.id,
-        name : req.decoded.name,
-        major : req.decoded.major,
-        tel : req.decoded.tel
-    }
-    res.status(200).json(decodedQuery)
-})
+
+
+
 
 module.exports = router
