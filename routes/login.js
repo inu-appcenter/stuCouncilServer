@@ -2,8 +2,11 @@ const express = require('express')
 const router = express.Router()
 const request = require('request')
 const config = require('./config/config')
+const authMiddleWare = require('./function/auth')
 let returnJson = {}
 let returnStatus
+
+router.use('/',authMiddleWare)
 
 router.post('/signUp',(req,res)=>{
     const signUpOptions = {
@@ -84,6 +87,16 @@ router.post('/signUp',(req,res)=>{
         }
     })
 
+})
+
+router.post('/myPage',async (req,res) => {
+    let decodedQuery = {
+        id : req.decoded.id,
+        name : req.decoded.name,
+        major : req.decoded.major,
+        tel : req.decoded.tel
+    }
+    res.status(200).json(decodedQuery)
 })
 
 module.exports = router
