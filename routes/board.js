@@ -21,7 +21,9 @@ const mockup = require('./mokup.json')
 let fileArray = []
 
 
-router.use('/',authMiddleWare)
+router.use('/create',authMiddleWare)
+router.use('/update',authMiddleWare)
+router.use('/delete',authMiddleWare)
 
 router.get('/all',(req,res)=>{
     res.status(200).json(mockup)
