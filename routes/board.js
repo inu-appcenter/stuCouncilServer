@@ -19,14 +19,40 @@ const upload = multer({storage: storage})
 
 const mockup = require('./mokup.json')
 let fileArray = []
+let selectBoard 
 
 
 router.use('/create',authMiddleWare)
 router.use('/update',authMiddleWare)
 router.use('/delete',authMiddleWare)
+router.use('/one',authMiddleWare)
 
 router.get('/all',(req,res)=>{
     res.status(200).json(mockup)
+})
+
+
+router.post('/one',async (req,res) => {
+    if(req.body.boardKind == 5){
+        selectBoard = boardSecret
+    }else{
+        selectBoard = board
+    }
+
+    await selectBoard.findOne({boardId : req.body.boardId},{
+        "_id" : false,
+    }).exec(async(err,docs) => {
+        if(err){
+            console.log(err)
+            res.status(400).json({ans:"fail"})
+        }
+        else{
+            res.status(200).json(docs)
+        }
+    })
+    
+    
+
 })
 
 router.post('/all',async (req,res) => {
@@ -122,6 +148,7 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
         res.status(400).json({ans : "fail"})
     }
 })
+
 
 router.post('/delete',async(req,res)=>{
     
