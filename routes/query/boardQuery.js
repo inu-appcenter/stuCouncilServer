@@ -1,10 +1,17 @@
 const board = require('../model/boardModel')
+const boardSecret = require('../model/boardSecretModel')
 
 module.exports = async (query,kind) => {
     const nowDate = new Date()
     switch(kind){
         case 'select':
-            board.find({boardKind : query},{
+            let selectBoard
+            if(query.boardKind === 'rent'){
+                selectBoard = boardSecret
+            }else{
+                selectBoard = board
+            }
+            selectBoard.find({boardKind : query},{
                 "_id" : false,
                 "content" : false
             }).sort({date:'desc'}).exec((err,docs)=>{
@@ -19,7 +26,13 @@ module.exports = async (query,kind) => {
             })
         break
         case 'create':
-            let newBoard = new board()
+            let newBoard
+            if(query.boardKind === 'rent'){
+                newBoard = new boardSecret()
+                newBoard.boardSecret = query.boardSecret
+            }else{
+                newBoard = new board()
+            }
             newBoard.author = query.author
             newBoard.title = query.title
             newBoard.date = nowDate
@@ -40,7 +53,13 @@ module.exports = async (query,kind) => {
             })
         break
         case 'update':
-            board.updateMany(
+            let selectBoard
+            if(query.boardKind === 'rent'){
+                selectBoard = boardSecret
+            }else{
+                selectBoard = board
+            }
+            selectBoard.updateMany(
                 {boardId : query.boardId},
                 {$set:
                     {

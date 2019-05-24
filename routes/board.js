@@ -20,7 +20,7 @@ const mockup = require('./mokup.json')
 let fileArray = []
 
 
-router.use('/',authMiddleWare)
+//router.use('/',authMiddleWare)
 
 router.get('/all',(req,res)=>{
     res.status(200).json(mockup)
@@ -79,6 +79,10 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
     else{
         res.status(400).json({ans : "fail"})
     }
+})
+
+router.post('/delete',async(req,res)=>{
+    
 })
 
 
