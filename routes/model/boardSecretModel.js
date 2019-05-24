@@ -15,7 +15,7 @@ let boardSecretSchema = new Schema({
     file : [],
     content : String,
     notice : Boolean,
-    boardKind : String,
+    boardKind : Number,
     boardSecret : Boolean
 })
 

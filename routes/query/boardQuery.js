@@ -3,31 +3,48 @@ const boardSecret = require('../model/boardSecretModel')
 
 module.exports = async (query,kind) => {
     const nowDate = new Date()
+    let selectBoard
+    let returnValue = false
+    let returnDoc = []
     switch(kind){
         case 'select':
-            let selectBoard
-            if(query.boardKind === 'rent'){
+            if(query == 5){
                 selectBoard = boardSecret
             }else{
                 selectBoard = board
             }
-            selectBoard.find({boardKind : query},{
+                await selectBoard.find({boardKind : query,notice : true},{
                 "_id" : false,
-                "content" : false
-            }).sort({date:'desc'}).exec((err,docs)=>{
+                "content" : false,
+                "boardKind" : false
+            }).sort({date:'desc'}).exec(async(err,docs)=>{
                 if(err){
                     console.log(err)
-                    return false
+                    return returnValue
                 }
                 else{
-                    let answer = docs
-                    return answer
+                    returnDoc.push(docs)
+                    await selectBoard.find({boardKind : query},{
+                        "_id" : false,
+                        "content" : false,
+                        "boardKind" : false
+                    }).sort({date:'desc'}).exec(async (err,docs)=>{
+                        if(err){
+                            console.log(err)
+                            return returnValue
+                        }
+                        else{
+                            returnDoc.push(docs)
+                            return returnDoc
+                        }
+                    })
                 }
-            })
-        break
+            }) 
+            break
+
         case 'create':
             let newBoard
-            if(query.boardKind === 'rent'){
+            if(query.boardKind == 5){
                 newBoard = new boardSecret()
                 newBoard.boardSecret = query.boardSecret
             }else{
@@ -45,16 +62,16 @@ module.exports = async (query,kind) => {
                 )
             await newBoard.save(async (err,docs) => {
                 if(err) {
-                    return false
+                    return returnValue
                 }
                 else{
-                    return true
+                    returnValue = true
+                    return returnValue
                 }
             })
         break
         case 'update':
-            let selectBoard
-            if(query.boardKind === 'rent'){
+            if(query.boardKind == 5){
                 selectBoard = boardSecret
             }else{
                 selectBoard = board
@@ -73,14 +90,23 @@ module.exports = async (query,kind) => {
                 ).exec((err)=>{
                     if(err){
                         console.log(err)
-                        return false
+                        return returnValue
                     }
                     else {
-                        return true
+                        returnValue = true
+                        return returnValue
                     }
                     })
         break
         default:
             break
+    }
+
+    console.log(returnDoc)
+    if(!(returnDoc === "")){
+        return returnDoc
+    }
+    else{
+        return returnValue
     }
 }

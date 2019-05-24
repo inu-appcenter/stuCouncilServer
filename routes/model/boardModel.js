@@ -15,7 +15,7 @@ let boardSchema = new Schema({
     file : [],
     content : String,
     notice : Boolean,
-    boardKind : String
+    boardKind : Number
 })
 
 module.exports = mongoose.model('boardSchema',boardSchema)
