@@ -65,7 +65,7 @@ router.post('/tmpPasswd', async(req,res)=>{
             'Content-Type' : 'application/x-www-form-urlencoded'
         },
         form : {
-            id : req.decoded.id
+            id : req.body.id
         },
         json : true
     }
