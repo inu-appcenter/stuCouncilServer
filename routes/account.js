@@ -9,7 +9,9 @@ const router = express.Router()
 let returnJson = {}
 let returnStatus
 
-router.use('/',authMiddleWare)
+router.use('/changeInfo',authMiddleWare)
+router.use('/myPage',authMiddleWare)
+
 
 router.post('/changeInfo',(req,res)=>{
     const changeQuery = {
