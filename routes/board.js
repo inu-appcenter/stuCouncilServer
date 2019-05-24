@@ -69,13 +69,28 @@ router.post('/all',async (req,res) => {
 
 router.post('/create',upload.array('userFile',4),async (req,res) => {
     await req.files.map(Data => fileArray.push(Data.filename))
-    let createQuery = {
-        author : req.decoded.id,
-        title : req.body.title,
-        file : fileArray,
-        content : req.body.content,
-        notice : req.body.notice,
-        boardKind : req.body.boardKind
+    let createQuery
+
+    if(req.body.boardKind == 5){
+        createQuery = {
+            author : req.decoded.id,
+            title : req.body.title,
+            file : fileArray,
+            content : req.body.content,
+            notice : req.body.notice,
+            boardKind : req.body.boardKind,
+            boardSecret : req.body.boardSecret
+        }
+    }
+    else{
+        createQuery = {
+            author : req.decoded.id,
+            title : req.body.title,
+            file : fileArray,
+            content : req.body.content,
+            notice : req.body.notice,
+            boardKind : req.body.boardKind
+        }
     }
 
     if(boardQuery(createQuery,'create')){
