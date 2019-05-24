@@ -111,7 +111,6 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
         file : fileArray,
         content : req.body.content,
         notice : req.body.notice,
-        boardKind : req.body.boardKind
     }
 
     if(boardQuery(updateQuery,'update')){
