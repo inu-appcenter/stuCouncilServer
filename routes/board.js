@@ -103,6 +103,7 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
 })
 
 router.post('/update',upload.array('userFile',4),async (req,res) => {
+    fileArray = []
     await req.files.map(Data => fileArray.push(Data.filename))
     let updateQuery = {
         boardId : req.body.boardId,
