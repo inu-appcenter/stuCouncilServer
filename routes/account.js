@@ -80,6 +80,12 @@ router.post('/tmpPasswd', async(req,res)=>{
                         ans : "success"
                     }
                 break
+                case 400 :
+                    returnStatus = 400
+                    returnJson = {
+                        ans : "fail"
+                    }
+                breakß
 
                 default :
                 break
