@@ -41,6 +41,7 @@ router.post('/one',async (req,res) => {
 
     await selectBoard.findOne({boardId : req.body.boardId},{
         "_id" : false,
+        "serverTime" : false
     }).exec(async(err,docs) => {
         if(err){
             console.log(err)
