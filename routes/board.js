@@ -56,6 +56,26 @@ router.post('/one',async (req,res) => {
 
 })
 
+router.post('/search',async(req,res)=>{
+    if(req.body.boardKind == 5) {
+        selectBoard = boardSecret
+    }
+    else{
+        selectBoard = board
+    }
+
+    await selectBoard.find({boardKind : req.body.boardKind,title:{$regex:req.body.search,$options:'i'}})
+    .exec((err,docs)=>{
+        if(err){
+            console.log(err)
+            res.status(400).json({ans:'fail'})
+        }
+        else{
+            res.status(200).json(docs)
+        }
+    })
+})
+
 router.post('/all',async (req,res) => {
     let returnDoc = []
 
