@@ -41,6 +41,7 @@ router.post('/one',async (req,res) => {
 
     await selectBoard.findOne({boardId : req.body.boardId},{
         "_id" : false,
+        "serverTime" : false
     }).exec(async(err,docs) => {
         if(err){
             console.log(err)
@@ -63,31 +64,19 @@ router.post('/all',async (req,res) => {
     }else{
         selectBoard = board
     }
-        await selectBoard.find({boardKind : req.body.boardKind,notice : true},{
+    await selectBoard.find({boardKind : req.body.boardKind},{
         "_id" : false,
         "content" : false,
-        "boardKind" : false
-    }).sort({date:'desc'}).exec(async(err,docs)=>{
+        "boardKind" : false,
+        "serverTime" : false
+    }).sort({date:'desc'}).exec(async (err,docs)=>{
         if(err){
             console.log(err)
             res.status(400).json({ans : "fail"})
         }
         else{
             returnDoc.push(docs)
-            await selectBoard.find({boardKind : req.body.boardKind},{
-                "_id" : false,
-                "content" : false,
-                "boardKind" : false
-            }).sort({date:'desc'}).exec(async (err,docs)=>{
-                if(err){
-                    console.log(err)
-                    res.status(400).json({ans : "fail"})
-                }
-                else{
-                    returnDoc.push(docs)
-                    res.status(200).send(returnDoc)
-                }
-            })
+            res.status(200).send(returnDoc)
         }
     }) 
 })

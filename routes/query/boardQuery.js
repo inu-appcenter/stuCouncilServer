@@ -1,8 +1,10 @@
 const board = require('../model/boardModel')
 const boardSecret = require('../model/boardSecretModel')
+const moment = require('moment-timezone')
 
 module.exports = async (query,kind) => {
-    const nowDate = new Date()
+    const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD hh:mm:ss')
+    console.log(nowDate)
     let selectBoard
     let returnValue = false
     let returnDoc = []
@@ -16,7 +18,8 @@ module.exports = async (query,kind) => {
                 await selectBoard.find({boardKind : query,notice : true},{
                 "_id" : false,
                 "content" : false,
-                "boardKind" : false
+                "boardKind" : false,
+                "serverTime" : false
             }).sort({date:'desc'}).exec(async(err,docs)=>{
                 if(err){
                     console.log(err)
@@ -27,7 +30,8 @@ module.exports = async (query,kind) => {
                     await selectBoard.find({boardKind : query},{
                         "_id" : false,
                         "content" : false,
-                        "boardKind" : false
+                        "boardKind" : false,
+                        "serverTime" : false
                     }).sort({date:'desc'}).exec(async (err,docs)=>{
                         if(err){
                             console.log(err)

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 let boardSecretSchema = new Schema({
     author : String,
     title : String,
-    date : Date,
+    date : String,//{type:Date, default:Date.now},
     boardId : {
         type : String,
         unique : true,
@@ -16,7 +16,8 @@ let boardSecretSchema = new Schema({
     content : String,
     notice : Boolean,
     boardKind : Number,
-    boardSecret : Boolean
+    boardSecret : Boolean,
+    serverTime : {type:Date, default:Date.now}
 })
 
 module.exports = mongoose.model('boardSecretSchema',boardSecretSchema)
