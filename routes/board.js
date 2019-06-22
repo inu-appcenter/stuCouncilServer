@@ -151,7 +151,18 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
 
 
 router.post('/delete',async(req,res)=>{
-    
+    let deleteQuery = {
+        boardId : req.body.boardId,
+        boardKind : req.body.boardKind,
+        author : req.decoded.id
+    }
+
+    if(boardQuery(deleteQuery,'delete')){
+        res.status(200).json({ans : "success"})
+    }
+    else{
+        res.status(400).json({ans : "fail"})
+    }
 })
 
 

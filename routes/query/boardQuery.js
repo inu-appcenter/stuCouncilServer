@@ -98,6 +98,26 @@ module.exports = async (query,kind) => {
                     }
                     })
         break
+
+        case 'delete':
+            if(query.boardKind == 5){
+                selectBoard = boardSecret
+            }
+            else{
+                selectBoard = board
+            }
+
+            selectBoard.deleteOne({author: query.author,boardId: query.boardId, boardKind: query.boardKind})
+            .exec((err)=>{
+                if(err) {
+                    console.log(err)
+                    return returnValue
+                }
+                else{
+                    returnValue = true
+                    return returnValue
+                }
+            })
         default:
             break
     }
