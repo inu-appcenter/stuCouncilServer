@@ -90,6 +90,7 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
     if(req.body.boardKind == 5){
         createQuery = {
             author : req.decoded.id,
+            authorName: req.decoded.name,
             title : req.body.title,
             file : fileArray,
             content : req.body.content,
@@ -101,6 +102,7 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
     else{
         createQuery = {
             author : req.decoded.id,
+            authorName: req.decoded.name,
             title : req.body.title,
             file : fileArray,
             content : req.body.content,
@@ -123,6 +125,7 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
     let updateQuery = {
         boardId : req.body.boardId,
         author : req.decoded.id,
+        authorName: req.decoded.name,
         title : req.body.title,
         file : fileArray,
         content : req.body.content,

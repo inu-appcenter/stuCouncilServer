@@ -55,6 +55,7 @@ module.exports = async (query,kind) => {
                 newBoard = new board()
             }
             newBoard.author = query.author
+            newBoard.authorName = query.authorName
             newBoard.title = query.title
             newBoard.date = nowDate
             newBoard.viewTime = 0

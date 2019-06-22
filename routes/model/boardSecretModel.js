@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 let boardSecretSchema = new Schema({
     author : String,
+    authorName: String,
     title : String,
     date : String,//{type:Date, default:Date.now},
     boardId : {
