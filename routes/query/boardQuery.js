@@ -10,7 +10,7 @@ module.exports = async (query,kind) => {
     let returnDoc = []
     switch(kind){
         case 'select':
-            if(query == 5){
+            if(query == 6){
                 selectBoard = boardSecret
             }else{
                 selectBoard = board
@@ -48,7 +48,7 @@ module.exports = async (query,kind) => {
 
         case 'create':
             let newBoard
-            if(query.boardKind == 5){
+            if(query.boardKind == 6){
                 newBoard = new boardSecret()
                 newBoard.boardSecret = query.boardSecret
             }else{
@@ -76,7 +76,7 @@ module.exports = async (query,kind) => {
             })
         break
         case 'update':
-            if(query.boardKind == 5){
+            if(query.boardKind == 6){
                 selectBoard = boardSecret
             }else{
                 selectBoard = board
@@ -105,7 +105,7 @@ module.exports = async (query,kind) => {
         break
 
         case 'delete':
-            if(query.boardKind == 5){
+            if(query.boardKind == 6){
                 selectBoard = boardSecret
             }
             else{

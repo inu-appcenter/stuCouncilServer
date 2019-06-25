@@ -33,7 +33,7 @@ router.get('/all',(req,res)=>{
 
 
 router.post('/one',async (req,res) => {
-    if(req.body.boardKind == 5){
+    if(req.body.boardKind == 6){
         selectBoard = boardSecret
     }else{
         selectBoard = board
@@ -57,7 +57,7 @@ router.post('/one',async (req,res) => {
 })
 
 router.post('/search',async(req,res)=>{
-    if(req.body.boardKind == 5) {
+    if(req.body.boardKind == 6) {
         selectBoard = boardSecret
     }
     else{
@@ -79,7 +79,7 @@ router.post('/search',async(req,res)=>{
 router.post('/all',async (req,res) => {
     let returnDoc = []
 
-    if(req.body.boardKind == 5){
+    if(req.body.boardKind == 6){
         selectBoard = boardSecret
     }else{
         selectBoard = board
@@ -107,7 +107,7 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
     await req.files.map(Data => fileArray.push(Data.filename))
     let createQuery
 
-    if(req.body.boardKind == 5){
+    if(req.body.boardKind == 6){
         createQuery = {
             author : req.decoded.id,
             authorName: req.decoded.name,
