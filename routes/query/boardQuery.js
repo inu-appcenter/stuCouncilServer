@@ -62,6 +62,7 @@ module.exports = async (query,kind) => {
             newBoard.notice = query.notice
             newBoard.content = query.content
             newBoard.boardKind = query.boardKind
+            newBoard.fileFolder = query.fileFolder
             await query.file.map(Data => 
                 newBoard.file.push(Data)
                 )

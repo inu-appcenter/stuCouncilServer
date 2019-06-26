@@ -1,5 +1,9 @@
 const express = require('express')
 const multer = require('multer')
+const fs = require('fs')
+const path = require('path')
+const randomstring = require('randomstring')
+
 const authMiddleWare = require('./function/auth')
 const boardQuery = require('./query/boardQuery')
 const board = require('./model/boardModel')
@@ -7,17 +11,28 @@ const boardSecret = require('./model/boardSecretModel')
 
 
 const router = express.Router()
+let fileFolder = randomstring.generate(7)
 const storage = multer.diskStorage({
+    
     destination : (req,file,cb)=> {
-        cb(null,'file/')
+
+        fs.mkdir('./file/'+fileFolder,(err)=>{
+            if(err){
+                console.log(err)
+            }
+            else{
+                cb(null,'file/'+fileFolder+'/')
+            }
+        })
     },
     filename : (req,file,cb)=>{
-        cb(null,Date.now()+'_'+file.originalname)
+        let extension = path.extname(file.originalname)
+        let basename = path.basename(file.originalname, extension)
+        cb(null,basename+extension)
     }
 })
 const upload = multer({storage: storage})
 
-const mockup = require('./mokup.json')
 let fileArray = []
 let selectBoard 
 
@@ -64,7 +79,12 @@ router.post('/search',async(req,res)=>{
         selectBoard = board
     }
 
-    await selectBoard.find({boardKind : req.body.boardKind,title:{$regex:req.body.search,$options:'i'}})
+    await selectBoard.find({boardKind : req.body.boardKind,title:{$regex:req.body.search,$options:'i'}},{
+        "_id" : false,
+        "content" : false,
+        "boardKind" : false,
+        "serverTime" : false
+    })
     .exec((err,docs)=>{
         if(err){
             console.log(err)
@@ -116,7 +136,8 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
             content : req.body.content,
             notice : req.body.notice,
             boardKind : req.body.boardKind,
-            boardSecret : req.body.boardSecret
+            boardSecret : req.body.boardSecret,
+            fileFolder : fileFolder
         }
     }
     else{
@@ -127,7 +148,8 @@ router.post('/create',upload.array('userFile',4),async (req,res) => {
             file : fileArray,
             content : req.body.content,
             notice : req.body.notice,
-            boardKind : req.body.boardKind
+            boardKind : req.body.boardKind,
+            fileFolder : fileFolder
         }
     }
 

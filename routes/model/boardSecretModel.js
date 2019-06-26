@@ -18,6 +18,7 @@ let boardSecretSchema = new Schema({
     notice : Boolean,
     boardKind : Number,
     boardSecret : Boolean,
+    fileFolder : String,
     serverTime : {type:Date, default:Date.now}
 })
 
