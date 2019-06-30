@@ -2,10 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const path = require('path')
 const config = require('./routes/config/config')
 
 const app = express()
-const port = 7003
+const port = 7004
 const db = mongoose.connection
 db.on('error',console.error)
 db.once('open',function() {
@@ -36,8 +37,10 @@ app.use(function(req, res, next) {
     err.status = 404
     next(err)
   })
-  
-  app.get('/',(req,res)=> res.send("hello world"))
+
+app.use(express.static(path.join(__dirname,'build')))
+
+app.get('/',(req,res)=> res.sendFile(path.join(__dirname,'build','index.html')))
   
   
   // development error handler
