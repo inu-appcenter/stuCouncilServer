@@ -35,10 +35,11 @@ app.use('/account',account)
 app.use(express.static(path.join(__dirname,'build')))
 
 app.get('/',(req,res)=> res.sendFile(path.join(__dirname,'build','index.html')))
-/*app.get('/',(req,res)=> {
-	console.log(__dirname)
-	res.send("helloworld")
-})*/
+
+app.post('/download',(req,res)=>{
+  let file = __dirname+'/file/'+req.body.fileFolder+'/'+req.body.filename
+  res.download(file)
+})
 
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {

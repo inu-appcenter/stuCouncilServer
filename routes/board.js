@@ -72,13 +72,7 @@ router.post('/one',async (req,res) => {
 
 })
 
-router.post('/download',(req,res)=>{
-    let root = app.get(rootDir)
-    console.log(root)
-    let file = root+'file/'+req.body.fileFolder+req.body.filename
-    console.log(file)
-    res.download(file)
-  })
+
 
 router.post('/search',async(req,res)=>{
     if(req.body.boardKind == 6) {
