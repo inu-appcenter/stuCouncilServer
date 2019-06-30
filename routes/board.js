@@ -9,6 +9,7 @@ const boardQuery = require('./query/boardQuery')
 const board = require('./model/boardModel')
 const boardSecret = require('./model/boardSecretModel')
 
+const app = express()
 
 const router = express.Router()
 let fileFolder = randomstring.generate(7)
@@ -70,6 +71,14 @@ router.post('/one',async (req,res) => {
     
 
 })
+
+router.post('/download',(req,res)=>{
+    let root = app.get(rootDir)
+    console.log(root)
+    let file = root+'file/'+req.body.fileFolder+req.body.filename
+    console.log(file)
+    res.download(file)
+  })
 
 router.post('/search',async(req,res)=>{
     if(req.body.boardKind == 6) {

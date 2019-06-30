@@ -12,11 +12,15 @@ db.once('open',function() {
     console.log("db connect")
 })
 
+
+
 mongoose.connect(config.mongoPath)
 
 const board = require('./routes/board')
 const login = require('./routes/login')
 const account = require('./routes/account')
+
+app.set('rootDir',__dirname)
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
@@ -34,6 +38,7 @@ app.use(function(req, res, next) {
   })
   
   app.get('/',(req,res)=> res.send("hello world"))
+  
   
   // development error handler
   // will print stacktrace
