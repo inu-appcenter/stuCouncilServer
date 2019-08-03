@@ -47,6 +47,7 @@ module.exports = async (query,kind) => {
             break
 
         case 'create':
+            // eslint-disable-next-line no-case-declarations
             let newBoard
             if(query.boardKind == 6){
                 newBoard = new boardSecret()
@@ -66,7 +67,7 @@ module.exports = async (query,kind) => {
             await query.file.map(Data => 
                 newBoard.file.push(Data)
                 )
-            await newBoard.save(async (err,docs) => {
+            await newBoard.save(async (err) => {
                 if(err) {
                     return returnValue
                 }
@@ -124,6 +125,7 @@ module.exports = async (query,kind) => {
                     return returnValue
                 }
             })
+            break
         default:
             break
     }

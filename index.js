@@ -20,8 +20,11 @@ mongoose.connect(config.mongoPath)
 const board = require('./routes/board')
 const login = require('./routes/login')
 const account = require('./routes/account')
-
-app.set('rootDir',__dirname)
+/* eslint-disable */
+const dirname = __dirname
+ 
+/* eslint-enable */
+//app.set('rootDir',__dirname)
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
@@ -31,22 +34,28 @@ app.use('/board',board)
 app.use('/login',login)
 app.use('/account',account)
 
+
+app.use(express.static(path.join(dirname,'build')))
+
+app.get('/',(req,res)=> res.sendFile(path.join(dirname,'build','index.html')))
+
+app.post('/download',(req,res)=>{
+  let file = dirname+'/file/'+req.body.fileFolder+'/'+req.body.filename
+  res.download(file)
+})
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
     var err = new Error('Not Found')
     err.status = 404
     next(err)
   })
+*/
 
-app.use(express.static(path.join(__dirname,'build')))
-
-app.get('/',(req,res)=> res.sendFile(path.join(__dirname,'build','index.html')))
-  
-  
   // development error handler
   // will print stacktrace
-  if (app.get('env') === 'development') {
-    app.use(function(err, req, res) {
+ /* if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
       res.status(err.status || 500)
       res.render('error', {
         message: err.message,
@@ -61,5 +70,5 @@ app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.send(err)
   })
-
+*/
 app.listen(port,() => console.log('stuConcilServer is running'))

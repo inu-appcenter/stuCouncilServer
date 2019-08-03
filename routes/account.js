@@ -30,7 +30,7 @@ router.post('/changeInfo',(req,res)=>{
         },
         json : true
     }
-    request.post(changeQuery,(err,response,body)=>{
+    request.post(changeQuery,(err,response)=>{
         if(!err){
             switch(response.statusCode){
                 case 200 :
@@ -71,7 +71,7 @@ router.post('/tmpPasswd', async(req,res)=>{
         json : true
     }
 
-    request.post(tmpPasswdQuery,(err,response,body)=>{
+    request.post(tmpPasswdQuery,(err,response)=>{
         if(!err){
             switch(response.statusCode){
                 case 200 :
@@ -85,7 +85,7 @@ router.post('/tmpPasswd', async(req,res)=>{
                     returnJson = {
                         ans : "fail"
                     }
-                breakß
+                break
 
                 default :
                 break

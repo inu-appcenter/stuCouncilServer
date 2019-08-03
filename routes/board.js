@@ -3,6 +3,7 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 const randomstring = require('randomstring')
+const rimraf = require('rimraf')
 
 const authMiddleWare = require('./function/auth')
 const boardQuery = require('./query/boardQuery')
@@ -65,13 +66,6 @@ router.post('/one',async (req,res) => {
 
 })
 
-// router.post('/download',(req,res)=>{
-//     let root = app.get(rootDir)
-//     console.log(root)
-//     let file = root+'file/'+req.body.fileFolder+req.body.filename
-//     console.log(file)
-//     res.download(file)
-//   })
 
 router.post('/search',async(req,res)=>{
     if(req.body.boardKind == 6) {
@@ -194,6 +188,7 @@ router.post('/delete',async(req,res)=>{
     }
 
     if(boardQuery(deleteQuery,'delete')){
+        req.body.fileFolder && rimraf.sync(`./file/${req.body.fileFolder}`)
         res.status(200).json({ans : "success"})
     }
     else{

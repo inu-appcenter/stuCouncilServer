@@ -24,7 +24,7 @@ router.post('/signUp',(req,res)=>{
         },
         json:true
     }
-    request.post(signUpOptions,(err,response,body)=>{
+    request.post(signUpOptions,(err,response)=>{
         if(!err){
             switch (response.statusCode){
                 case 200:
@@ -62,7 +62,7 @@ router.post('/signUp',(req,res)=>{
         },
         json:true
     }
-    request.post(signInOptions,(err,response,body)=>{
+    request.post(signInOptions,(err,response)=>{
         if(!err){
             switch (response.statusCode){
                 case 200:
