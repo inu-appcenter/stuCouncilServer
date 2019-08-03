@@ -9,21 +9,15 @@ const boardQuery = require('./query/boardQuery')
 const board = require('./model/boardModel')
 const boardSecret = require('./model/boardSecretModel')
 
-const app = express()
+// const app = express()
 
 const router = express.Router()
 let fileFolder = randomstring.generate(7)
 const storage = multer.diskStorage({
     
     destination : (req,file,cb)=> {
-
-        fs.mkdir('./file/'+fileFolder,(err)=>{
-            if(err){
-                console.log(err)
-            }
-            else{
+        fs.mkdir('./file/'+fileFolder,()=>{
                 cb(null,'file/'+fileFolder+'/')
-            }
         })
     },
     filename : (req,file,cb)=>{
@@ -32,6 +26,8 @@ const storage = multer.diskStorage({
         cb(null,basename+extension)
     }
 })
+
+
 const upload = multer({storage: storage})
 
 let fileArray = []
@@ -43,9 +39,6 @@ router.use('/update',authMiddleWare)
 router.use('/delete',authMiddleWare)
 router.use('/one',authMiddleWare)
 
-router.get('/all',(req,res)=>{
-    res.status(200).json(mockup)
-})
 
 
 router.post('/one',async (req,res) => {
@@ -72,13 +65,13 @@ router.post('/one',async (req,res) => {
 
 })
 
-router.post('/download',(req,res)=>{
-    let root = app.get(rootDir)
-    console.log(root)
-    let file = root+'file/'+req.body.fileFolder+req.body.filename
-    console.log(file)
-    res.download(file)
-  })
+// router.post('/download',(req,res)=>{
+//     let root = app.get(rootDir)
+//     console.log(root)
+//     let file = root+'file/'+req.body.fileFolder+req.body.filename
+//     console.log(file)
+//     res.download(file)
+//   })
 
 router.post('/search',async(req,res)=>{
     if(req.body.boardKind == 6) {
