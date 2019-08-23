@@ -42,7 +42,7 @@ app.use(express.static(path.join(dirname,'build')))
 app.get('/',(req,res)=> res.sendFile(path.join(dirname,'build','index.html')))
 
 app.get('/download',(req,res)=>{
-  let file = dirname+'/file/'+req.body.fileFolder+'/'+req.body.filename
+  let file = dirname+'/file/'+req.query.fileFolder+'/'+req.query.filename
   res.download(file)
 })
 
