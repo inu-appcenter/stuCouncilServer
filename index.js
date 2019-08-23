@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-console */
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -41,7 +43,7 @@ app.get('/',(req,res)=> res.sendFile(path.join(dirname,'build','index.html')))
 
 app.post('/download',(req,res)=>{
   let file = dirname+'/file/'+req.body.fileFolder+'/'+req.body.filename
-  res.download(file)
+  res.download(file,encodeURIComponent(path.basename(file)))
 })
 
 // catch 404 and forward to error handler
@@ -71,4 +73,5 @@ app.use(function(err, req, res) {
     res.send(err)
   })
 */
+// eslint-disable-next-line no-console
 app.listen(port,() => console.log('stuConcilServer is running'))
