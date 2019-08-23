@@ -41,9 +41,9 @@ app.use(express.static(path.join(dirname,'build')))
 
 app.get('/',(req,res)=> res.sendFile(path.join(dirname,'build','index.html')))
 
-app.post('/download',(req,res)=>{
+app.get('/download',(req,res)=>{
   let file = dirname+'/file/'+req.body.fileFolder+'/'+req.body.filename
-  res.download(file,encodeURIComponent(path.basename(file)))
+  res.download(file)
 })
 
 // catch 404 and forward to error handler
