@@ -4,7 +4,6 @@ const moment = require('moment-timezone')
 
 module.exports = async (query,kind) => {
     const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD hh:mm:ss')
-    console.log(nowDate)
     let selectBoard
     let returnValue = false
     let returnDoc = []
@@ -22,7 +21,6 @@ module.exports = async (query,kind) => {
                 "serverTime" : false
             }).sort({date:'desc'}).exec(async(err,docs)=>{
                 if(err){
-                    console.log(err)
                     return returnValue
                 }
                 else{
@@ -34,7 +32,6 @@ module.exports = async (query,kind) => {
                         "serverTime" : false
                     }).sort({date:'desc'}).exec(async (err,docs)=>{
                         if(err){
-                            console.log(err)
                             return returnValue
                         }
                         else{
@@ -96,7 +93,6 @@ module.exports = async (query,kind) => {
                 {multi:true}
                 ).exec((err)=>{
                     if(err){
-                        console.log(err)
                         return returnValue
                     }
                     else {
@@ -117,7 +113,6 @@ module.exports = async (query,kind) => {
             selectBoard.deleteOne({author: query.author,boardId: query.boardId, boardKind: query.boardKind})
             .exec((err)=>{
                 if(err) {
-                    console.log(err)
                     return returnValue
                 }
                 else{
@@ -126,11 +121,44 @@ module.exports = async (query,kind) => {
                 }
             })
             break
+
+            case 'import':
+                // eslint-disable-next-line no-case-declarations
+                let importBoard
+                if(query.boardKind == 6){
+                    importBoard = new boardSecret()
+                    importBoard.boardSecret = query.boardSecret
+                }else{
+                    importBoard = new board()
+                }
+                importBoard.author = query.author
+                importBoard.authorName = query.authorName
+                importBoard.title = query.title
+                importBoard.date = query.date
+                importBoard.viewTime = 0
+                importBoard.notice = query.notice
+                importBoard.content = query.content
+                importBoard.boardKind = query.boardKind
+                importBoard.fileFolder = query.fileFolder
+                await query.file.map(Data => 
+                    importBoard.file.push(Data)
+                    )
+                await importBoard.save(async (err) => {
+                    if(err) {
+                        return returnValue
+                    }
+                    else{
+                        returnValue = true
+                        return returnValue
+                    }
+                })
+            break
+
+
         default:
             break
     }
 
-    console.log(returnDoc)
     if(!(returnDoc === "")){
         return returnDoc
     }

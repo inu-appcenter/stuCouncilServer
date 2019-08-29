@@ -54,7 +54,6 @@ router.post('/one',async (req,res) => {
         "serverTime" : false
     }).exec(async(err,docs) => {
         if(err){
-            console.log(err)
             res.status(400).json({ans:"fail"})
         }
         else{
@@ -83,7 +82,6 @@ router.post('/search',async(req,res)=>{
     })
     .exec((err,docs)=>{
         if(err){
-            console.log(err)
             res.status(400).json({ans:'fail'})
         }
         else{
@@ -107,7 +105,6 @@ router.post('/all',async (req,res) => {
         "serverTime" : false
     }).sort({date:'desc'}).exec(async (err,docs)=>{
         if(err){
-            console.log(err)
             res.status(400).json({ans : "fail"})
         }
         else{
@@ -180,7 +177,7 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
 })
 
 
-router.post('/delete',async(req,res)=>{
+router.post('/delete',upload.array('userFile',4),async(req,res)=>{
     let deleteQuery = {
         boardId : req.body.boardId,
         boardKind : req.body.boardKind,
@@ -196,6 +193,46 @@ router.post('/delete',async(req,res)=>{
     }
 })
 
+
+router.post('/sorting', async(req,res)=>{
+    fileArray=[]
+    await req.files.map(Data => fileArray.push(Data.filename))
+    let createQuery
+
+    if(req.body.boardKind == 6){
+        createQuery = {
+            author : req.decoded.id,
+            authorName: req.decoded.name,
+            title : req.body.title,
+            file : fileArray,
+            content : req.body.content,
+            notice : req.body.notice,
+            boardKind : req.body.boardKind,
+            boardSecret : req.body.boardSecret,
+            fileFolder : fileFolder
+        }
+    }
+    else{
+        createQuery = {
+            author : req.decoded.id,
+            authorName: req.decoded.name,
+            title : req.body.title,
+            data: req.body.date,
+            file : fileArray,
+            content : req.body.content,
+            notice : req.body.notice,
+            boardKind : req.body.boardKind,
+            fileFolder : fileFolder
+        }
+    }
+
+    if(boardQuery(createQuery,'import')){
+        res.status(200).json({ans : "success"})
+    }
+    else{
+        res.status(400).json({ans : "fail"})
+    }
+})
 
 
 
