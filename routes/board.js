@@ -39,6 +39,7 @@ router.use('/create',authMiddleWare)
 router.use('/update',authMiddleWare)
 router.use('/delete',authMiddleWare)
 router.use('/one',authMiddleWare)
+router.use('/import',authMiddleWare)
 
 
 
@@ -194,7 +195,7 @@ router.post('/delete',async(req,res)=>{
 })
 
 
-router.post('/sorting',upload.array('userFile',4), async(req,res)=>{
+router.post('/import',upload.array('userFile',4), async(req,res)=>{
     fileArray=[]
     await req.files.map(Data => fileArray.push(Data.filename))
     let createQuery
