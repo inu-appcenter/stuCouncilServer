@@ -31,6 +31,7 @@ const dirname = __dirname
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
+app.use(require('connect-history-api-fallback')())
 
 app.use('/board',board)
 app.use('/login',login)
