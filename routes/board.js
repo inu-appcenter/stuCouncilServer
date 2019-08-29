@@ -177,7 +177,7 @@ router.post('/update',upload.array('userFile',4),async (req,res) => {
 })
 
 
-router.post('/delete',upload.array('userFile',4),async(req,res)=>{
+router.post('/delete',async(req,res)=>{
     let deleteQuery = {
         boardId : req.body.boardId,
         boardKind : req.body.boardKind,
@@ -194,7 +194,7 @@ router.post('/delete',upload.array('userFile',4),async(req,res)=>{
 })
 
 
-router.post('/sorting', async(req,res)=>{
+router.post('/sorting',upload.array('userFile',4), async(req,res)=>{
     fileArray=[]
     await req.files.map(Data => fileArray.push(Data.filename))
     let createQuery
