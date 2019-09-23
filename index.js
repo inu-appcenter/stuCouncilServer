@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const path = require('path')
+const history = require('connect-history-api-fallback');
 const config = require('./routes/config/config')
 
 const app = express()
@@ -22,6 +23,7 @@ mongoose.connect(config.mongoPath)
 const board = require('./routes/board')
 const login = require('./routes/login')
 const account = require('./routes/account')
+const xe = require('./routes/xe')
 /* eslint-disable */
 const dirname = __dirname
  
@@ -31,13 +33,15 @@ const dirname = __dirname
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
-app.use(require('connect-history-api-fallback')())
 
 app.use('/board',board)
 app.use('/login',login)
 app.use('/account',account)
+app.use('/xe',xe)
 
-
+app.use(history({
+  verbose: true
+}));
 app.use(express.static(path.join(dirname,'build')))
 
 app.get('/',(req,res)=> res.sendFile(path.join(dirname,'build','index.html')))
@@ -75,4 +79,4 @@ app.use(function(err, req, res) {
   })
 */
 // eslint-disable-next-line no-console
-app.listen(port,() => console.log('stuConcilServer is running'))
+app.listen(port,() => console.log(port+'stuConcilServer is running'))

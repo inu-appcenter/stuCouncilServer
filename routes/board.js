@@ -91,7 +91,7 @@ router.post('/search',async(req,res)=>{
     })
 })
 
-router.post('/all',async (req,res) => {
+router.get('/all',async (req,res) => {
     let returnDoc = []
 
     if(req.body.boardKind == 6){
