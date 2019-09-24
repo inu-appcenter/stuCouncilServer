@@ -41,7 +41,6 @@ app.use('/xe',xe)
 
 app.use(history({
   verbose: true,
-  disableDotRule: true
 }));
 app.use(express.static(path.join(dirname,'build')))
 
