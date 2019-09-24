@@ -40,7 +40,10 @@ app.use('/account',account)
 app.use('/xe',xe)
 
 app.use(history({
-  verbose: true
+  verbose: true,
+  rewrites: [
+    {from: /\./, to: '/'}
+  ]
 }));
 app.use(express.static(path.join(dirname,'build')))
 
