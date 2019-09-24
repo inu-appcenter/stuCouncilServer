@@ -2,8 +2,8 @@ const board = require('../model/boardModel')
 const boardSecret = require('../model/boardSecretModel')
 const moment = require('moment-timezone')
 
-module.exports = async (query,kind) => {
-    const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD hh:mm:ss')
+module.exports = async (query,kind,date=0) => {
+    const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD')
     let selectBoard
     let returnValue = false
     let returnDoc = []
@@ -55,7 +55,11 @@ module.exports = async (query,kind) => {
             newBoard.author = query.author
             newBoard.authorName = query.authorName
             newBoard.title = query.title
-            newBoard.date = nowDate
+            if(date == 0 ){
+                newBoard.date = nowDate
+            }else{
+                newBoard.date = date
+            }
             newBoard.viewTime = 0
             newBoard.notice = query.notice
             newBoard.content = query.content
@@ -109,7 +113,6 @@ module.exports = async (query,kind) => {
             else{
                 selectBoard = board
             }
-
             selectBoard.deleteOne({author: query.author,boardId: query.boardId, boardKind: query.boardKind})
             .exec((err)=>{
                 if(err) {

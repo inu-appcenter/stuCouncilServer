@@ -143,11 +143,11 @@ router.post('/create',upload.array('userFile',8),async (req,res) => {
             content : req.body.content,
             notice : req.body.notice,
             boardKind : req.body.boardKind,
-            fileFolder : fileFolder
+            fileFolder : fileFolder,
         }
     }
 
-    if(boardQuery(createQuery,'create')){
+    if(boardQuery(createQuery,'create',req.body.ad_date)){
         res.status(200).json({ans : "success"})
     }
     else{
