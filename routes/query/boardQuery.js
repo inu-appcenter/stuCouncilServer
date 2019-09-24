@@ -3,7 +3,7 @@ const boardSecret = require('../model/boardSecretModel')
 const moment = require('moment-timezone')
 
 module.exports = async (query,kind,date=0) => {
-    const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD')
+    const nowDate = moment.tz(new Date(),"Asia/Seoul").format('YYYY-MM-DD HH:mm:ss')
     let selectBoard
     let returnValue = false
     let returnDoc = []
