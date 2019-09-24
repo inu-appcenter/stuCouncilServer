@@ -9,7 +9,7 @@ const history = require('connect-history-api-fallback');
 const config = require('./routes/config/config')
 
 const app = express()
-const port = 7004
+const port = 8080
 const db = mongoose.connection
 db.on('error',console.error)
 db.once('open',function() {
