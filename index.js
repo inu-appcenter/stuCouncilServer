@@ -38,6 +38,8 @@ app.use('/board',board)
 app.use('/login',login)
 app.use('/account',account)
 app.use('/xe',xe)
+app.use('/imgload',express.static('file'))
+
 
 app.use(history({
   verbose: true,
