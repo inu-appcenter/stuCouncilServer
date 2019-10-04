@@ -18,9 +18,6 @@ router.use('/import',fileFolderRandomString)
 
 const storage = multer.diskStorage({
     destination : (req,file,cb)=> {
-        // console.log(fileFolder+Date.now())
-        console.log(req.fileFolder)
-        // const fileFolder = randomString()
         fs.mkdir('./file/'+req.fileFolder,()=>{
                 cb(null,'file/'+req.fileFolder+'/')
         })
@@ -120,8 +117,6 @@ router.post('/create',upload.array('userFile',8),async (req,res) => {
     fileArray=[]
     await req.files.map(Data => fileArray.push(Data.filename))
     let createQuery
-    // eslint-disable-next-line require-atomic-updates
-    console.log("fileFolder is "+req.fileFolder)
     if(req.body.boardKind == 6){
         createQuery = {
             author : req.decoded.id,
