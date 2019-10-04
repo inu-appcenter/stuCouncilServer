@@ -13,6 +13,8 @@ const boardSecret = require('./model/boardSecretModel')
 // const app = express()
 const router = express.Router()
 router.use('/create',fileFolderRandomString)
+router.use('/update',fileFolderRandomString)
+router.use('/import',fileFolderRandomString)
 
 const storage = multer.diskStorage({
     destination : (req,file,cb)=> {
