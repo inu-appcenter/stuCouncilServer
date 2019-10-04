@@ -2,23 +2,25 @@ const express = require('express')
 const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
-const randomstring = require('randomstring')
 const rimraf = require('rimraf')
 
 const authMiddleWare = require('./function/auth')
+const fileFolderRandomString = require('./function/random')
 const boardQuery = require('./query/boardQuery')
 const board = require('./model/boardModel')
 const boardSecret = require('./model/boardSecretModel')
 
 // const app = express()
-
 const router = express.Router()
-let fileFolder = randomstring.generate(7)
+router.use('/create',fileFolderRandomString)
+
 const storage = multer.diskStorage({
-    
     destination : (req,file,cb)=> {
-        fs.mkdir('./file/'+fileFolder,()=>{
-                cb(null,'file/'+fileFolder+'/')
+        // console.log(fileFolder+Date.now())
+        console.log(req.fileFolder)
+        // const fileFolder = randomString()
+        fs.mkdir('./file/'+req.fileFolder,()=>{
+                cb(null,'file/'+req.fileFolder+'/')
         })
     },
     filename : (req,file,cb)=>{
@@ -49,7 +51,6 @@ router.post('/one',async (req,res) => {
     }else{
         selectBoard = board
     }
-
     await selectBoard.findOne({boardId : req.body.boardId},{
         "_id" : false,
         "serverTime" : false
@@ -61,9 +62,6 @@ router.post('/one',async (req,res) => {
             res.status(200).json(docs)
         }
     })
-    
-    
-
 })
 
 
@@ -120,7 +118,8 @@ router.post('/create',upload.array('userFile',8),async (req,res) => {
     fileArray=[]
     await req.files.map(Data => fileArray.push(Data.filename))
     let createQuery
-
+    // eslint-disable-next-line require-atomic-updates
+    console.log("fileFolder is "+req.fileFolder)
     if(req.body.boardKind == 6){
         createQuery = {
             author : req.decoded.id,
@@ -131,7 +130,7 @@ router.post('/create',upload.array('userFile',8),async (req,res) => {
             notice : req.body.notice,
             boardKind : req.body.boardKind,
             boardSecret : req.body.boardSecret,
-            fileFolder : fileFolder
+            fileFolder : req.fileFolder
         }
     }
     else{
@@ -143,7 +142,7 @@ router.post('/create',upload.array('userFile',8),async (req,res) => {
             content : req.body.content,
             notice : req.body.notice,
             boardKind : req.body.boardKind,
-            fileFolder : fileFolder,
+            fileFolder : req.fileFolder,
         }
     }
 
@@ -211,7 +210,7 @@ router.post('/import',upload.array('userFile',8), async(req,res)=>{
             notice : req.body.notice,
             boardKind : req.body.boardKind,
             boardSecret : req.body.boardSecret,
-            fileFolder : fileFolder
+            fileFolder : req.fileFolder
         }
     }
     else{
@@ -224,7 +223,7 @@ router.post('/import',upload.array('userFile',8), async(req,res)=>{
             content : req.body.content,
             notice : req.body.notice,
             boardKind : req.body.boardKind,
-            fileFolder : fileFolder
+            fileFolder : req.fileFolder
         }
     }
 
@@ -235,6 +234,7 @@ router.post('/import',upload.array('userFile',8), async(req,res)=>{
         res.status(400).json({ans : "fail"})
     }
 })
+
 
 
 
